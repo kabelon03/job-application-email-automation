@@ -1,15 +1,17 @@
-import os
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-def send_followup_email(sender_email, recipient_email, company_name, position):
+def send_followup_email(sender_email, recipient_email, company_name, position, sender_password=None):
     smtp_server = 'smtp.gmail.com'
     smtp_port = 587
-    sender_password = os.environ.get('EMAIL_PASSWORD')
     
     if not sender_password:
-        print("Error: Email password not set in environment variable.")
+        import os
+        sender_password = os.environ.get('EMAIL_PASSWORD')
+    
+    if not sender_password:
+        print("Error: Email password not set.")
         return False
     
     subject = f"Following Up - {position} Application"
@@ -28,8 +30,7 @@ def send_followup_email(sender_email, recipient_email, company_name, position):
         
         <p>Please let me know if you need any additional information from my side.</p>
         
-        <p>Kind regards,<br>
-        Kabelo</p>
+        <p>Kind regards</p>
     </body>
     </html>
     '''
